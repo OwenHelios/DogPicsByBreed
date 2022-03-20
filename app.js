@@ -133,21 +133,3 @@ async function getPics(breed, subBreed) {
   resultsTotal.textContent = results.length
   return results
 }
-
-// search.addEventListener("keyup", () => getPics(search.value))
-
-// async function getDog(dogName) {
-//   const res = await fetch(
-//     "https://api.api-ninjas.com/v1/dogs?name=" + dogName,
-//     {
-//       method: "GET",
-//       headers: {
-//         "content-type": "application/json",
-//         "X-Api-Key": "ZZ1cTkbGuyJNi0I12prHhA==vLZq51TMAfCvfdlg",
-//       },
-//     }
-//   )
-//   const data = await res.json()
-//   console.log(data)
-// }
-// getDog(dogName)
