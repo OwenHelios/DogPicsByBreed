@@ -8,16 +8,26 @@
     <title>Dog Pics By Breed</title>
   </head>
   <body>
-    <div class="header">
+    <!-- <div class="header">
       <img src="dog-api-logo.svg" alt="">
-    </div>
+    </div> -->
     <div class="search-bar">
       <form>
         <input list="dogs" type="text" id="search" placeholder="Enter Dog Breed..." autocomplete="off"/>
         <datalist id="dogs"></datalist>
         <button type="submit">Search</button>
       </form>
+      <div>
+      <select name="results-per-page" id="results-per-page">
+        <option value="">--Results Per Page--</option>
+        <option value="5">5 Per Page</option>
+        <option value="10">10 Per Page</option>
+        <option value="15">15 Per Page</option>
+        <option value="20">20 Per Page</option>
+        <option value="25">25 Per Page</option>
+      </select>
       <button id="random">Random</button>
+    </div>
     </div>
     
     <div class="image-container"></div>

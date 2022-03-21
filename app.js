@@ -6,6 +6,7 @@ const nextPage = document.getElementById("next-page")
 const resultsTotal = document.getElementById("results-total")
 const pageNumber = document.getElementById("page-number")
 const pagesTotal = document.getElementById("pages-total")
+const dropDown = document.getElementById("results-per-page")
 const imageContainer = document.querySelector(".image-container")
 const form = document.querySelector("form")
 const footer = document.querySelector(".footer")
@@ -17,33 +18,19 @@ var fullList
 var breeds
 var subBreeds
 var breedNames = []
+var resultsPerPage = dropDown.value || 5
 
 initialize()
 
-form.addEventListener("submit", e => {
-  e.preventDefault()
-  handleSubmit()
+dropDown.addEventListener("change", () => {
+  resultsPerPage = dropDown.value
+  if (!currentResults) return
+  const pages = Math.ceil(currentResults.length / resultsPerPage)
+  pagesTotal.textContent = pages
+  displayPics(currentResults, currentPage)
 })
 
-async function handleSubmit() {
-  const words = search.value.trim().split(" ")
-  for (let i = 0; i < breeds.length; i++) {
-    if (breeds[i].includes(words[1])) {
-      if (subBreeds[i].length == 0) {
-        currentResults = await getPics(breeds[i], false)
-      } else {
-        for (let j = 0; j < subBreeds[i].length; j++)
-          if (subBreeds[i][j].includes(words[0])) {
-            currentResults = await getPics(breeds[i], subBreeds[i][j])
-          }
-      }
-    }
-  }
-  if (currentResults != null) {
-    currentPage = 1
-    displayPics(currentResults, currentPage)
-  }
-}
+form.addEventListener("submit", handleSubmit)
 
 random.addEventListener("click", getRandom)
 prevPage.addEventListener("click", () => {
@@ -75,6 +62,28 @@ async function initialize() {
   })
 }
 
+async function handleSubmit(e) {
+  e.preventDefault()
+  const words = search.value.trim().split(" ")
+  if (words.length == 1) words.push(words[0])
+  for (let i = 0; i < breeds.length; i++) {
+    if (breeds[i].includes(words[1])) {
+      if (subBreeds[i].length == 0) {
+        currentResults = await getPics(breeds[i], false)
+      } else {
+        for (let j = 0; j < subBreeds[i].length; j++)
+          if (subBreeds[i][j].includes(words[0])) {
+            currentResults = await getPics(breeds[i], subBreeds[i][j])
+          }
+      }
+    }
+  }
+  if (currentResults != null) {
+    currentPage = 1
+    displayPics(currentResults, currentPage)
+  }
+}
+
 async function getList() {
   const url = "https://dog.ceo/api/breeds/list/all"
   const res = await fetch(url)
@@ -104,7 +113,7 @@ async function getRandom() {
 }
 
 async function displayPics(results, page) {
-  const pages = Math.ceil(results.length / 6)
+  const pages = Math.ceil(results.length / resultsPerPage)
   if (page > pages) return
   pagesTotal.textContent = pages
   pageNumber.textContent = page
@@ -112,7 +121,11 @@ async function displayPics(results, page) {
   prevPage.disabled = page === 1
   nextPage.disabled = page === pages
   imageContainer.innerHTML = ""
-  for (let i = 6 * (page - 1); i < 6 * page && i < results.length; i++) {
+  for (
+    let i = resultsPerPage * (page - 1);
+    i < resultsPerPage * page && i < results.length;
+    i++
+  ) {
     const image = document.createElement("img")
     const anchor = document.createElement("a")
     image.src = results[i]

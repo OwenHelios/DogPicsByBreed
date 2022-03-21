@@ -30,15 +30,17 @@ body::before {
   margin: 10px 0;
 }
 
-input {
+.search-bar * {
   font-size: 20px;
-  margin-left: 20px;
-  max-width: 40vw;
+}
+
+.search-bar form {
+  display: flex;
+  justify-content: center;
 }
 
 button {
-  font-size: 20px;
-  margin-left: 15px;
+  margin: 0 15px;
   padding: 0 18px;
   line-height: 28px;
 }
@@ -46,6 +48,15 @@ button {
 img {
   width: auto;
   max-height: 200px;
+}
+
+.search-bar > div {
+  display: flex;
+  justify-content: center;
+}
+
+.search-bar select option {
+  text-align: center;
 }
 
 .image-container {
@@ -80,4 +91,28 @@ img {
 
 .hidden {
   display: none;
+}
+
+@media (max-width: 480px) {
+  .search-bar {
+    flex-direction: column;
+  }
+  .search-bar form {
+    margin-bottom: 5px;
+  }
+  .search-bar * {
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 760px) and (min-width: 480px) {
+  .search-bar form {
+    margin-bottom: 5px;
+  }
+  .search-bar button {
+    margin: 0 8px;
+  }
+  .search-bar * {
+    font-size: 12px;
+  }
 }
